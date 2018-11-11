@@ -1,0 +1,26 @@
+{
+  "name": "mapa-bairro",
+  "version": "1.0.0",
+  "description": "Projeto final da Udacity Frontend Avançado - Mapa do bairro",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeanfsantos/projeto-mapa-bairro.git"
+  },
+  "keywords": [
+    "udacity",
+    "frontend",
+    "google-maps",
+    "react",
+    "javascript"
+  ],
+  "author": "Jean Santos <jeanwfsantos@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeanfsantos/projeto-mapa-bairro/issues"
+  },
+  "homepage": "https://github.com/jeanfsantos/projeto-mapa-bairro#readme"
+}
