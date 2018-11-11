@@ -1,3 +1,7 @@
 module.exports = {
-    "extends": "standard"
+    extends: 'standard',
+    rules: {
+        indent: ['error', 4],
+        quotes: ['error', 'single']
+    }
 };
