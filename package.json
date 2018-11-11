@@ -42,6 +42,7 @@
     },
     "dependencies": {
         "react": "^16.6.1",
-        "react-dom": "^16.6.1"
+        "react-dom": "^16.6.1",
+        "react-google-maps": "^9.4.5"
     }
 }
