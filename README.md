@@ -14,3 +14,4 @@ Projeto Mapa do bairro é um aplicativo de página única apresentando um mapa d
 -   [Eslint](https://eslint.org/) para controle da qualidade do código.
 -   [Prettier](https://prettier.io/) para formatar código.
 -   [webpack](https://webpack.js.org/) para executar as tarefas de compilar o js, css e instanciar um servidor de desenolvimento.
+-   [React](https://reactjs.org/) Uma biblioteca JavaScript para construir interfaces com o usuário.
