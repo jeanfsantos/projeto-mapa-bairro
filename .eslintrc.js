@@ -1,5 +1,6 @@
 module.exports = {
-    extends: 'standard',
+    extends: 'eslint:recommended',
+    parser: 'babel-eslint',
     rules: {
         indent: ['error', 4],
         quotes: ['error', 'single']

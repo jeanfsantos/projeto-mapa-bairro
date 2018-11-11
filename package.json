@@ -1,35 +1,42 @@
 {
-  "name": "mapa-bairro",
-  "version": "1.0.0",
-  "description": "Projeto final da Udacity Frontend Avançado - Mapa do bairro",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jeanfsantos/projeto-mapa-bairro.git"
-  },
-  "keywords": [
-    "udacity",
-    "frontend",
-    "google-maps",
-    "react",
-    "javascript"
-  ],
-  "author": "Jean Santos <jeanwfsantos@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/jeanfsantos/projeto-mapa-bairro/issues"
-  },
-  "homepage": "https://github.com/jeanfsantos/projeto-mapa-bairro#readme",
-  "devDependencies": {
-    "eslint": "^5.9.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "prettier": "^1.15.2"
-  }
+    "name": "mapa-bairro",
+    "version": "1.0.0",
+    "description": "Projeto final da Udacity Frontend Avançado - Mapa do bairro",
+    "main": "index.js",
+    "scripts": {
+        "dev": "webpack-dev-server --mode development",
+        "prod": "webpack --mode production"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jeanfsantos/projeto-mapa-bairro.git"
+    },
+    "keywords": [
+        "udacity",
+        "frontend",
+        "google-maps",
+        "react",
+        "javascript"
+    ],
+    "author": "Jean Santos <jeanwfsantos@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/jeanfsantos/projeto-mapa-bairro/issues"
+    },
+    "homepage": "https://github.com/jeanfsantos/projeto-mapa-bairro#readme",
+    "devDependencies": {
+        "@babel/core": "^7.1.5",
+        "@babel/preset-env": "^7.1.5",
+        "babel-eslint": "^10.0.1",
+        "babel-loader": "^8.0.4",
+        "clean-webpack-plugin": "^0.1.19",
+        "eslint": "^5.9.0",
+        "html-webpack-plugin": "^3.2.0",
+        "prettier": "^1.15.2"
+    },
+    "dependencies": {
+        "webpack": "^4.25.1",
+        "webpack-cli": "^3.1.2",
+        "webpack-dev-server": "^3.1.10"
+    }
 }
