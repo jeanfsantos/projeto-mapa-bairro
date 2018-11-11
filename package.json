@@ -4,7 +4,7 @@
     "description": "Projeto final da Udacity Frontend Avançado - Mapa do bairro",
     "main": "index.js",
     "scripts": {
-        "dev": "webpack-dev-server --mode development",
+        "dev": "webpack-dev-server --mode development --devtool inline-source-map --hot",
         "prod": "webpack --mode production"
     },
     "repository": {
@@ -27,16 +27,21 @@
     "devDependencies": {
         "@babel/core": "^7.1.5",
         "@babel/preset-env": "^7.1.5",
+        "@babel/preset-react": "^7.0.0",
         "babel-eslint": "^10.0.1",
         "babel-loader": "^8.0.4",
         "clean-webpack-plugin": "^0.1.19",
         "eslint": "^5.9.0",
+        "eslint-plugin-react": "^7.11.1",
         "html-webpack-plugin": "^3.2.0",
-        "prettier": "^1.15.2"
-    },
-    "dependencies": {
+        "prettier": "^1.15.2",
+        "react-hot-loader": "^4.3.12",
         "webpack": "^4.25.1",
         "webpack-cli": "^3.1.2",
         "webpack-dev-server": "^3.1.10"
+    },
+    "dependencies": {
+        "react": "^16.6.1",
+        "react-dom": "^16.6.1"
     }
 }

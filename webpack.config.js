@@ -1,4 +1,5 @@
 /* eslint-env node */
+const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
@@ -19,7 +20,7 @@ const webpackConfig = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env']
+                        presets: ['@babel/preset-env', '@babel/preset-react']
                     }
                 }
             }
@@ -33,4 +34,9 @@ const webpackConfig = {
     ]
 };
 
-module.exports = webpackConfig;
+module.exports = (env, argv) => {
+    if (argv.mode === 'development') {
+        webpackConfig.plugins.unshift(new webpack.HotModuleReplacementPlugin());
+    }
+    return webpackConfig;
+};
