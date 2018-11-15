@@ -1,0 +1,34 @@
+{
+    "markers": [
+        {
+            "id": 1,
+            "title": "Casa",
+            "lat": -23.568543,
+            "lng": -46.693307
+        },
+        {
+            "id": 2,
+            "title": "PagSeguro UOL",
+            "lat": -23.570103,
+            "lng": -46.691927
+        },
+        {
+            "id": 3,
+            "title": "Shopping Eldorado",
+            "lat": -23.572721,
+            "lng": -46.696002
+        },
+        {
+            "id": 4,
+            "title": "Iguatemi Shopping",
+            "lat": -23.576991,
+            "lng": -46.688143
+        },
+        {
+            "id": 5,
+            "title": "Sesc Pinheiros",
+            "lat": -23.568006,
+            "lng": -46.69783
+        }
+    ]
+}

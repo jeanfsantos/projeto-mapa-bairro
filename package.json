@@ -26,6 +26,7 @@
     "homepage": "https://github.com/jeanfsantos/projeto-mapa-bairro#readme",
     "devDependencies": {
         "@babel/core": "^7.1.5",
+        "@babel/plugin-proposal-class-properties": "^7.1.0",
         "@babel/preset-env": "^7.1.5",
         "@babel/preset-react": "^7.0.0",
         "babel-eslint": "^10.0.1",
@@ -41,8 +42,10 @@
         "webpack-dev-server": "^3.1.10"
     },
     "dependencies": {
+        "immutability-helper": "^2.8.1",
         "react": "^16.6.1",
         "react-dom": "^16.6.1",
-        "react-google-maps": "^9.4.5"
+        "react-google-maps": "^9.4.5",
+        "recompose": "^0.30.0"
     }
 }
