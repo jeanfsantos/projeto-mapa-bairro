@@ -11,7 +11,8 @@ class App extends React.Component {
             markers: DATA.markers.map(marker => ({
                 ...marker,
                 isShowInfoWindow: false
-            }))
+            })),
+            searchMarkerValue: ''
         };
     }
 
@@ -27,12 +28,51 @@ class App extends React.Component {
         });
     };
 
+    onChangeSearchMarker = ({ target }) => {
+        this.setState(prevState => ({
+            ...prevState,
+            searchMarkerValue: target.value
+        }));
+    };
+
+    filterMarkers = marker => {
+        const { searchMarkerValue: value } = this.state;
+        if (!value) {
+            return true;
+        }
+        const regex = new RegExp(value, 'i');
+        return regex.test(marker.title);
+    };
+
     render() {
         return (
             <div>
                 <h1>Projeto - Mapa do bairro</h1>
+                <form>
+                    <label htmlFor="search-marker" />
+                    <input
+                        type="text"
+                        id="search-marker"
+                        onChange={this.onChangeSearchMarker}
+                    />
+                </form>
+                <ul>
+                    {this.state.markers
+                        .filter(this.filterMarkers)
+                        .map((marker, index) => (
+                            <li
+                                key={marker.id}
+                                onClick={() =>
+                                    this.handleToggleInfoWindow(index)
+                                }
+                            >
+                                {marker.title}
+                            </li>
+                        ))}
+                </ul>
+                <br />
                 <GoogleMap
-                    markers={this.state.markers}
+                    markers={this.state.markers.filter(this.filterMarkers)}
                     handleToggleInfoWindow={this.handleToggleInfoWindow}
                 />
             </div>
