@@ -16,12 +16,16 @@ class App extends React.Component {
         };
     }
 
-    handleToggleInfoWindow = index => {
+    handleToggleInfoWindow = marker => {
+        const index = this.state.markers.findIndex(
+            mark => mark.id === marker.id
+        );
+        const isShowInfoWindow = !this.state.markers[index].isShowInfoWindow;
         this.setState({
             markers: update(this.state.markers, {
                 [index]: {
                     isShowInfoWindow: {
-                        $set: !this.state.markers[index].isShowInfoWindow
+                        $set: isShowInfoWindow
                     }
                 }
             })
@@ -59,11 +63,11 @@ class App extends React.Component {
                 <ul>
                     {this.state.markers
                         .filter(this.filterMarkers)
-                        .map((marker, index) => (
+                        .map(marker => (
                             <li
                                 key={marker.id}
                                 onClick={() =>
-                                    this.handleToggleInfoWindow(index)
+                                    this.handleToggleInfoWindow(marker)
                                 }
                             >
                                 {marker.title}

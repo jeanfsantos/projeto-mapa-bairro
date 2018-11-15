@@ -17,8 +17,8 @@ const MapWithAMarker = compose(
         mapElement: <div style={{ height: `100%` }} />
     }),
     withHandlers({
-        onToggleInfoWindow: props => index => () => {
-            props.handleToggleInfoWindow(index);
+        onToggleInfoWindow: props => marker => () => {
+            props.handleToggleInfoWindow(marker);
         }
     }),
     withScriptjs,
@@ -28,15 +28,15 @@ const MapWithAMarker = compose(
         defaultZoom={15}
         defaultCenter={{ lat: props.markers[0].lat, lng: props.markers[0].lng }}
     >
-        {props.markers.map((mark, index) => (
+        {props.markers.map(marker => (
             <Marker
-                key={mark.id}
-                position={{ lat: mark.lat, lng: mark.lng }}
-                onClick={props.onToggleInfoWindow(index)}
+                key={marker.id}
+                position={{ lat: marker.lat, lng: marker.lng }}
+                onClick={props.onToggleInfoWindow(marker)}
             >
-                {mark.isShowInfoWindow && (
-                    <InfoWindow onCloseClick={props.onToggleInfoWindow(index)}>
-                        <div>{mark.title}</div>
+                {marker.isShowInfoWindow && (
+                    <InfoWindow onCloseClick={props.onToggleInfoWindow(marker)}>
+                        <div>{marker.title}</div>
                     </InfoWindow>
                 )}
             </Marker>
