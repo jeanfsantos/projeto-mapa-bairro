@@ -18,7 +18,8 @@ class App extends React.Component {
             searchMarkerValue: '',
             detail: null,
             loading: false,
-            showMenu: true
+            showMenu: true,
+            showError: false
         };
     }
 
@@ -35,7 +36,15 @@ class App extends React.Component {
                     ...marker,
                     isShowInfoWindow: false
                 }));
-                this.setState({ loading: false, markers, center: data.center });
+                this.setState({ markers, center: data.center });
+            })
+            .catch(() => {
+                this.setState({
+                    showError: true
+                });
+            })
+            .finally(() => {
+                this.setState({ loading: false });
             });
     }
 
@@ -84,9 +93,18 @@ class App extends React.Component {
 
     handleOpenModalWithDetail = marker => {
         this.setState({ loading: true, detail: null });
-        this.getInfoLocation(marker).then(detail => {
-            this.setState({ loading: false, detail });
-        });
+        this.getInfoLocation(marker)
+            .then(detail => {
+                this.setState({ detail });
+            })
+            .catch(() => {
+                this.setState({
+                    showError: true
+                });
+            })
+            .finally(() => {
+                this.setState({ loading: false });
+            });
     };
 
     onCloseModal = () => {
@@ -101,63 +119,96 @@ class App extends React.Component {
     };
 
     render() {
-        const { markers, center, detail, loading, showMenu } = this.state;
+        const {
+            markers,
+            center,
+            detail,
+            loading,
+            showMenu,
+            showError
+        } = this.state;
         return (
             <div className="wrapper">
-                {showMenu && (
-                    <aside className="menu menu-section">
-                        {markers.length && (
-                            <React.Fragment>
-                                <form>
-                                    <Input
-                                        placeholder="Pesquisar"
-                                        onChangeSearchMarker={
-                                            this.onChangeSearchMarker
-                                        }
-                                    />
-                                </form>
-                                <p className="menu-label">Lugares</p>
-                                <PlaceList
-                                    places={markers.filter(this.filterMarkers)}
+                {showError ? (
+                    <Overlay>
+                        <div className="wrapper-loading">
+                            <article className="message is-danger">
+                                <div className="message-header">
+                                    <p>Erro</p>
+                                </div>
+                                <div className="message-body">
+                                    Ops, ocorreu um erro favor recarregar a
+                                    página, caso o erro persistir tente mais
+                                    tarde. (:
+                                </div>
+                            </article>
+                        </div>
+                    </Overlay>
+                ) : (
+                    <React.Fragment>
+                        {showMenu && (
+                            <aside className="menu menu-section">
+                                {markers.length && (
+                                    <React.Fragment>
+                                        <form>
+                                            <Input
+                                                placeholder="Filtrar"
+                                                onChangeSearchMarker={
+                                                    this.onChangeSearchMarker
+                                                }
+                                            />
+                                        </form>
+                                        <p className="menu-label">Lugares</p>
+                                        <PlaceList
+                                            places={markers.filter(
+                                                this.filterMarkers
+                                            )}
+                                            handleToggleInfoWindow={
+                                                this.handleToggleInfoWindow
+                                            }
+                                        />
+                                    </React.Fragment>
+                                )}
+                            </aside>
+                        )}
+                        <div className="content-section">
+                            <Navbar
+                                title="Projeto - Mapa do bairro"
+                                onToggleMenu={this.onToggleMenu}
+                                showMenu={showMenu}
+                            />
+                            {markers.length && (
+                                <GoogleMap
+                                    markers={markers.filter(this.filterMarkers)}
+                                    center={center}
                                     handleToggleInfoWindow={
                                         this.handleToggleInfoWindow
                                     }
+                                    handleOpenModalWithDetail={
+                                        this.handleOpenModalWithDetail
+                                    }
                                 />
-                            </React.Fragment>
-                        )}
-                    </aside>
-                )}
-                <div className="content-section">
-                    <Navbar
-                        title="Projeto - Mapa do bairro"
-                        onToggleMenu={this.onToggleMenu}
-                        showMenu={showMenu}
-                    />
-                    {markers.length && (
-                        <GoogleMap
-                            markers={markers.filter(this.filterMarkers)}
-                            center={center}
-                            handleToggleInfoWindow={this.handleToggleInfoWindow}
-                            handleOpenModalWithDetail={
-                                this.handleOpenModalWithDetail
-                            }
-                        />
-                    )}
-                </div>
-                {detail && (
-                    <Modal detail={detail} onCloseModal={this.onCloseModal} />
-                )}
-                {loading && (
-                    <Overlay>
-                        <div className="wrapper-loading">
-                            <progress
-                                className="progress is-large is-info"
-                                max="100"
-                            >
-                                60%
-                            </progress>
+                            )}
                         </div>
-                    </Overlay>
+                        {detail && (
+                            <Modal
+                                detail={detail}
+                                onCloseModal={this.onCloseModal}
+                            />
+                        )}
+                        {loading && (
+                            <Overlay>
+                                <div className="wrapper-loading">
+                                    <progress
+                                        className="progress is-large is-info"
+                                        max="100"
+                                    >
+                                        60%
+                                    </progress>
+                                </div>
+                            </Overlay>
+                        )}
+                    </React.Fragment>
                 )}
             </div>
         );
