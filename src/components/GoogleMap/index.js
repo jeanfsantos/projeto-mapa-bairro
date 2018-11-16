@@ -19,6 +19,9 @@ const MapWithAMarker = compose(
     withHandlers({
         onToggleInfoWindow: props => marker => () => {
             props.handleToggleInfoWindow(marker);
+        },
+        onOpenModalWithDetail: props => marker => () => {
+            props.handleOpenModalWithDetail(marker);
         }
     }),
     withScriptjs,
@@ -33,7 +36,16 @@ const MapWithAMarker = compose(
             >
                 {marker.isShowInfoWindow && (
                     <InfoWindow onCloseClick={props.onToggleInfoWindow(marker)}>
-                        <div>{marker.title}</div>
+                        <div>
+                            {marker.title}
+                            <br />
+                            <button
+                                type="button"
+                                onClick={props.onOpenModalWithDetail(marker)}
+                            >
+                                show detail
+                            </button>
+                        </div>
                     </InfoWindow>
                 )}
             </Marker>

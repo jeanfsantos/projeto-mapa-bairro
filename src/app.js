@@ -13,7 +13,9 @@ class App extends React.Component {
                 ...marker,
                 isShowInfoWindow: false
             })),
-            searchMarkerValue: ''
+            searchMarkerValue: '',
+            loading: false,
+            detail: null
         };
     }
 
@@ -31,7 +33,7 @@ class App extends React.Component {
                 }
             })
         });
-        isShowInfoWindow && this.getInfoLocation(marker);
+        !isShowInfoWindow && this.onCloseModal();
     };
 
     onChangeSearchMarker = ({ target }) => {
@@ -51,13 +53,28 @@ class App extends React.Component {
     };
 
     getInfoLocation(marker) {
-        axios
-            .get('/api/info-location', { params: { marker } })
-            .then(response => response.data)
-            .then(data => console.log(data));
+        return new Promise((resolve, reject) => {
+            axios
+                .get('/api/info-location', { params: { marker } })
+                .then(response => response.data)
+                .then(data => resolve(data))
+                .catch(err => reject(err));
+        });
     }
 
+    handleOpenModalWithDetail = marker => {
+        this.setState({ loading: true });
+        this.getInfoLocation(marker).then(detail => {
+            this.setState({ loading: false, detail });
+        });
+    };
+
+    onCloseModal = () => {
+        this.setState({ detail: null });
+    };
+
     render() {
+        const { markers, detail } = this.state;
         return (
             <div>
                 <h1>Projeto - Mapa do bairro</h1>
@@ -70,25 +87,49 @@ class App extends React.Component {
                     />
                 </form>
                 <ul>
-                    {this.state.markers
-                        .filter(this.filterMarkers)
-                        .map(marker => (
-                            <li
-                                key={marker.id}
-                                onClick={() =>
-                                    this.handleToggleInfoWindow(marker)
-                                }
-                            >
-                                {marker.title}
-                            </li>
-                        ))}
+                    {markers.filter(this.filterMarkers).map(marker => (
+                        <li
+                            key={marker.id}
+                            onClick={() => this.handleToggleInfoWindow(marker)}
+                        >
+                            {marker.title}
+                        </li>
+                    ))}
                 </ul>
                 <br />
                 <GoogleMap
-                    markers={this.state.markers.filter(this.filterMarkers)}
+                    markers={markers.filter(this.filterMarkers)}
                     center={DATA.center}
                     handleToggleInfoWindow={this.handleToggleInfoWindow}
+                    handleOpenModalWithDetail={this.handleOpenModalWithDetail}
                 />
+                {this.state.loading && <div>Carregando...</div>}
+                {detail && (
+                    <div>
+                        <div>{detail.name}</div>
+                        <img src={detail.image_url} />
+                        <div>{detail.review_count}</div>
+                        <div>{detail.rating}</div>
+                        <div>{detail.display_phone}</div>
+                        <div>
+                            <a
+                                href={detail.url}
+                                title={`Detalhes do ${detail.name}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Ver mais
+                            </a>
+                        </div>
+                        <div>
+                            {detail.display_address &&
+                                detail.display_address.join(', ')}
+                        </div>
+                        <button type="button" onClick={this.onCloseModal}>
+                            fechar
+                        </button>
+                    </div>
+                )}
             </div>
         );
     }
