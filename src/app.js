@@ -4,6 +4,9 @@ import axios from 'axios';
 
 import GoogleMap from './components/GoogleMap/index';
 import Navbar from './components/Navbar/index';
+import Input from './components/Input/index';
+import PlaceList from './components/PlaceList/index';
+import Modal from './components/Modal/index';
 
 class App extends React.Component {
     constructor(props) {
@@ -17,6 +20,10 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        this.setInitialMarkers();
+    }
+
+    setInitialMarkers() {
         axios
             .get('/api/initial-markers')
             .then(response => response.data)
@@ -86,52 +93,29 @@ class App extends React.Component {
     render() {
         const { markers, center, detail } = this.state;
         return (
-            <div style={{ display: 'flex' }}>
-                <aside
-                    className="menu"
-                    style={{ width: '300px', margin: '1rem' }}
-                >
+            <div className="wrapper">
+                <aside className="menu menu-section">
                     {markers.length && (
                         <React.Fragment>
                             <form>
-                                <div className="control">
-                                    <input
-                                        className="input"
-                                        type="text"
-                                        placeholder="Pesquisar"
-                                        onChange={this.onChangeSearchMarker}
-                                    />
-                                </div>
+                                <Input
+                                    placeholder="Pesquisar"
+                                    onChangeSearchMarker={
+                                        this.onChangeSearchMarker
+                                    }
+                                />
                             </form>
                             <p className="menu-label">Lugares</p>
-                            <ul className="menu-list">
-                                {markers
-                                    .filter(this.filterMarkers)
-                                    .map(marker => (
-                                        <li
-                                            key={marker.id}
-                                            onClick={() =>
-                                                this.handleToggleInfoWindow(
-                                                    marker
-                                                )
-                                            }
-                                        >
-                                            <a
-                                                className={
-                                                    marker.isShowInfoWindow
-                                                        ? 'is-active'
-                                                        : ''
-                                                }
-                                            >
-                                                {marker.title}
-                                            </a>
-                                        </li>
-                                    ))}
-                            </ul>
+                            <PlaceList
+                                places={markers.filter(this.filterMarkers)}
+                                handleToggleInfoWindow={
+                                    this.handleToggleInfoWindow
+                                }
+                            />
                         </React.Fragment>
                     )}
                 </aside>
-                <div style={{ width: '100%' }}>
+                <div className="content-section">
                     <Navbar title="Projeto - Mapa do bairro" />
                     {markers.length && (
                         <GoogleMap
@@ -145,73 +129,7 @@ class App extends React.Component {
                     )}
                 </div>
                 {detail && (
-                    <div className="modal is-active">
-                        <div className="modal-background" />
-                        <div className="modal-card">
-                            <header className="modal-card-head">
-                                <p className="modal-card-title">
-                                    {detail.name}
-                                </p>
-                                <button
-                                    className="delete"
-                                    aria-label="close"
-                                    onClick={this.onCloseModal}
-                                />
-                            </header>
-                            <section className="modal-card-body">
-                                <div style={{ display: 'flex' }}>
-                                    <div
-                                        style={{
-                                            maxWidth: '300px',
-                                            marginRight: '2rem'
-                                        }}
-                                    >
-                                        <img src={detail.image_url} />
-                                    </div>
-                                    <div>
-                                        {detail.review_count && (
-                                            <div>
-                                                Reviews: {detail.review_count}
-                                            </div>
-                                        )}
-                                        {detail.rating && (
-                                            <div>
-                                                Avaliação: {detail.rating}
-                                            </div>
-                                        )}
-                                        {detail.display_phone && (
-                                            <div>
-                                                Telefone: {detail.display_phone}
-                                            </div>
-                                        )}
-                                        {detail.display_address && (
-                                            <div>
-                                                Endereço:{' '}
-                                                {detail.display_address &&
-                                                    detail.display_address.join(
-                                                        ', '
-                                                    )}
-                                            </div>
-                                        )}
-                                        {detail.url && (
-                                            <div>
-                                                <a
-                                                    href={detail.url}
-                                                    title={`Detalhes do ${
-                                                        detail.name
-                                                    }`}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
-                                                    Ver mais
-                                                </a>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
+                    <Modal detail={detail} onCloseModal={this.onCloseModal} />
                 )}
             </div>
         );

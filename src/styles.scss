@@ -1,2 +1,15 @@
 @charset "utf-8";
 @import '~bulma/bulma';
+
+.wrapper {
+    display: flex;
+}
+
+.menu-section {
+    width: 300px;
+    margin: 1rem;
+}
+
+.content-section {
+    width: 100%;
+}
