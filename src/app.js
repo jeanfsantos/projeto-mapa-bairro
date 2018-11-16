@@ -150,30 +150,52 @@ class App extends React.Component {
                             <aside className="menu menu-section">
                                 {markers.length && (
                                     <React.Fragment>
-                                        <form>
-                                            <Input
-                                                placeholder="Filtrar"
-                                                onChangeSearchMarker={
-                                                    this.onChangeSearchMarker
+                                        <div>
+                                            <h1>Projeto - Mapa do bairro</h1>
+                                            <br />
+                                            <form>
+                                                <Input
+                                                    placeholder="Filtrar"
+                                                    onChangeSearchMarker={
+                                                        this
+                                                            .onChangeSearchMarker
+                                                    }
+                                                    ariaLabel="Filtrar lugares"
+                                                />
+                                            </form>
+                                            <p className="menu-label">
+                                                Lugares
+                                            </p>
+                                            <PlaceList
+                                                places={markers.filter(
+                                                    this.filterMarkers
+                                                )}
+                                                handleToggleInfoWindow={
+                                                    this.handleToggleInfoWindow
                                                 }
                                             />
-                                        </form>
-                                        <p className="menu-label">Lugares</p>
-                                        <PlaceList
-                                            places={markers.filter(
-                                                this.filterMarkers
-                                            )}
-                                            handleToggleInfoWindow={
-                                                this.handleToggleInfoWindow
-                                            }
-                                        />
+                                        </div>
+                                        <div tabIndex="0">
+                                            <div>{"API's utilizadas:"}</div>
+                                            <ul>
+                                                <li role="none">
+                                                    <a href="https://cloud.google.com/maps-platform/?hl=pt-BR">
+                                                        Google Map
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.yelp.com/developers">
+                                                        Yelp
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </React.Fragment>
                                 )}
                             </aside>
                         )}
                         <div className="content-section">
                             <Navbar
-                                title="Projeto - Mapa do bairro"
                                 onToggleMenu={this.onToggleMenu}
                                 showMenu={showMenu}
                             />

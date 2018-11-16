@@ -2,16 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import './styles.scss';
-
 const Navbar = props => (
-    <nav
-        className="navbar is-link"
-        role="navigation"
-        aria-label="main navigation"
-    >
+    <nav className="navbar is-link">
         <div className="navbar-brand">
-            <div className="navbar-title">{props.title}</div>
             <a
                 role="button"
                 className={classnames('navbar-burger', {
@@ -30,7 +23,6 @@ const Navbar = props => (
 );
 
 Navbar.propTypes = {
-    title: PropTypes.string.isRequired,
     onToggleMenu: PropTypes.func.isRequired,
     showMenu: PropTypes.bool.isRequired
 };

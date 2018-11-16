@@ -17,21 +17,37 @@ const Modal = props => (
             </header>
             <section className="modal-card-body">
                 <div className="modal-card-body-wrap">
-                    <div className="modal-card-body-content">
-                        <img src={props.detail.image_url} />
-                    </div>
-                    <div>
+                    {props.detail.image_url && (
+                        <div className="modal-card-body-content">
+                            <img
+                                src={props.detail.image_url}
+                                alt={`foto tirada do local ${
+                                    props.detail.name
+                                }`}
+                            />
+                        </div>
+                    )}
+                    <div
+                        tabIndex="0"
+                        aria-label={`Detalhes do ${props.detail.name}`}
+                    >
                         {props.detail.review_count && (
-                            <div>Reviews: {props.detail.review_count}</div>
+                            <div tabIndex="0">
+                                Reviews: {props.detail.review_count}
+                            </div>
                         )}
                         {props.detail.rating && (
-                            <div>Avaliação: {props.detail.rating}</div>
+                            <div tabIndex="0">
+                                Avaliação: {props.detail.rating}
+                            </div>
                         )}
                         {props.detail.display_phone && (
-                            <div>Telefone: {props.detail.display_phone}</div>
+                            <div tabIndex="0">
+                                Telefone: {props.detail.display_phone}
+                            </div>
                         )}
                         {props.detail.display_address && (
-                            <div>
+                            <div tabIndex="0">
                                 Endereço:{' '}
                                 {props.detail.display_address &&
                                     props.detail.display_address.join(', ')}
@@ -44,6 +60,7 @@ const Modal = props => (
                                     title={`Detalhes do ${props.detail.name}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="ver mais detalhe na página Yelp"
                                 >
                                     Ver mais
                                 </a>

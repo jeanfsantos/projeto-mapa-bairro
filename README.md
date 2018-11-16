@@ -31,7 +31,6 @@ O servidor feito em express é responsável por fazer a busca dos dados consulta
             "title": "Coffee & Tea"
         }
     ]
-    ...
 }
 ```
 
@@ -42,4 +41,5 @@ O servidor feito em express é responsável por fazer a busca dos dados consulta
 -   [webpack](https://webpack.js.org/) para executar as tarefas de compilar o js, css e instanciar um servidor de desenolvimento.
 -   [React](https://reactjs.org/) Uma biblioteca JavaScript para construir interfaces com o usuário.
 -   [Express](https://expressjs.com/pt-br/) O Express é um framework para aplicativo da web do Node.js mínimo e flexível que fornece um conjunto robusto de recursos para aplicativos web e móvel.
--   [Yelp](https://www.yelp.com/developers) API Restful para pesquisar e recuperar dados dos lugares.
+-   [Google Map API](https://cloud.google.com/maps-platform/?hl=pt-BR) API para renderizar o mapa e manipular marcadores.
+-   [Yelp](https://www.yelp.com/developers) API para pesquisar e recuperar dados dos lugares.

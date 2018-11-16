@@ -8,12 +8,14 @@ const Input = props => (
             type="text"
             placeholder={props.placeholder}
             onChange={props.onChangeSearchMarker}
+            aria-label={props.ariaLabel}
         />
     </div>
 );
 
 Input.propTypes = {
     placeholder: PropTypes.string.isRequired,
+    ariaLabel: PropTypes.string.isRequired,
     onChangeSearchMarker: PropTypes.func.isRequired
 };
 

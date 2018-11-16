@@ -47,6 +47,9 @@ const MapWithAMarker = compose(
                                 type="button"
                                 className="button is-success is-small"
                                 onClick={props.onOpenModalWithDetail(marker)}
+                                aria-label={`Mostrar detalhes de ${
+                                    marker.title
+                                }`}
                             >
                                 show detail
                             </button>
