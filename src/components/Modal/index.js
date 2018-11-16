@@ -94,7 +94,7 @@ const Modal = props => (
 Modal.propTypes = {
     detail: PropTypes.object.isRequired,
     onCloseModal: PropTypes.func.isRequired,
-    modalRef: PropTypes.node.isRequired
+    modalRef: PropTypes.object.isRequired
 };
 
 export default Modal;
