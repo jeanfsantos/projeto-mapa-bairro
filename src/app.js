@@ -3,6 +3,7 @@ import update from 'immutability-helper';
 import axios from 'axios';
 
 import GoogleMap from './components/GoogleMap/index';
+import Navbar from './components/Navbar/index';
 
 class App extends React.Component {
     constructor(props) {
@@ -131,27 +132,7 @@ class App extends React.Component {
                     )}
                 </aside>
                 <div style={{ width: '100%' }}>
-                    <nav
-                        className="navbar"
-                        role="navigation"
-                        aria-label="main navigation"
-                    >
-                        <div className="navbar-brand">
-                            <div style={{ lineHeight: '52px' }}>
-                                Projeto - Mapa do bairro
-                            </div>
-                            <a
-                                role="button"
-                                className="navbar-burger"
-                                aria-label="menu"
-                                aria-expanded="false"
-                            >
-                                <span aria-hidden="true" />
-                                <span aria-hidden="true" />
-                                <span aria-hidden="true" />
-                            </a>
-                        </div>
-                    </nav>
+                    <Navbar title="Projeto - Mapa do bairro" />
                     {markers.length && (
                         <GoogleMap
                             markers={markers.filter(this.filterMarkers)}
