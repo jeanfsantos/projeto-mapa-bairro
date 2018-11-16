@@ -5,7 +5,11 @@ import classnames from 'classnames';
 import './styles.scss';
 
 const Navbar = props => (
-    <nav className="navbar" role="navigation" aria-label="main navigation">
+    <nav
+        className="navbar is-link"
+        role="navigation"
+        aria-label="main navigation"
+    >
         <div className="navbar-brand">
             <div className="navbar-title">{props.title}</div>
             <a

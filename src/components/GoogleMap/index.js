@@ -8,6 +8,8 @@ import {
 } from 'react-google-maps';
 import { compose, withProps, withHandlers } from 'recompose';
 
+import './styles.scss';
+
 const MapWithAMarker = compose(
     withProps({
         googleMapURL:
@@ -33,17 +35,12 @@ const MapWithAMarker = compose(
                 key={marker.id}
                 position={{ lat: marker.lat, lng: marker.lng }}
                 onClick={props.onToggleInfoWindow(marker)}
+                animation={marker.isShowInfoWindow ? 1 : 0}
             >
                 {marker.isShowInfoWindow && (
                     <InfoWindow onCloseClick={props.onToggleInfoWindow(marker)}>
                         <div>
-                            <div
-                                style={{
-                                    marginBottom: '1rem',
-                                    fontWeight: '700',
-                                    fontSize: '20px'
-                                }}
-                            >
+                            <div className="google-map-title">
                                 {marker.title}
                             </div>
                             <button
