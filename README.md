@@ -4,6 +4,7 @@
 
 -   [Visão geral do projeto](#visão-geral-do-projeto)
 -   [Servidor Backend](#servidor-backend)
+-   [Instalar e executar](#instalar-e-executar)
 -   [Recursos usado](#recursos-usado)
 
 ## Visão geral do projeto
@@ -33,6 +34,22 @@ O servidor feito em express é responsável por fazer a busca dos dados consulta
     ]
 }
 ```
+
+## Instalar e executar
+
+Para executar o projeto segue os passos:
+
+-   instalar todas as dependências do projeto com `npm install`
+
+### Produção
+
+-   inicie ambiente de produção com `npm run prod`
+-   acesse a url `http://localhost:8080/`
+
+### Desenvolvimento
+
+-   inicie ambiente de desenvolvimento com `npm run dev`
+-   acesse a url `http://localhost:3000/`
 
 ## Recursos usado
 
