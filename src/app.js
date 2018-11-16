@@ -17,7 +17,8 @@ class App extends React.Component {
             markers: [],
             searchMarkerValue: '',
             detail: null,
-            loading: false
+            loading: false,
+            showMenu: true
         };
     }
 
@@ -93,33 +94,46 @@ class App extends React.Component {
         this.setState({ detail: null });
     };
 
+    onToggleMenu = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            showMenu: !prevState.showMenu
+        }));
+    };
+
     render() {
-        const { markers, center, detail, loading } = this.state;
+        const { markers, center, detail, loading, showMenu } = this.state;
         return (
             <div className="wrapper">
-                <aside className="menu menu-section">
-                    {markers.length && (
-                        <React.Fragment>
-                            <form>
-                                <Input
-                                    placeholder="Pesquisar"
-                                    onChangeSearchMarker={
-                                        this.onChangeSearchMarker
+                {showMenu && (
+                    <aside className="menu menu-section">
+                        {markers.length && (
+                            <React.Fragment>
+                                <form>
+                                    <Input
+                                        placeholder="Pesquisar"
+                                        onChangeSearchMarker={
+                                            this.onChangeSearchMarker
+                                        }
+                                    />
+                                </form>
+                                <p className="menu-label">Lugares</p>
+                                <PlaceList
+                                    places={markers.filter(this.filterMarkers)}
+                                    handleToggleInfoWindow={
+                                        this.handleToggleInfoWindow
                                     }
                                 />
-                            </form>
-                            <p className="menu-label">Lugares</p>
-                            <PlaceList
-                                places={markers.filter(this.filterMarkers)}
-                                handleToggleInfoWindow={
-                                    this.handleToggleInfoWindow
-                                }
-                            />
-                        </React.Fragment>
-                    )}
-                </aside>
+                            </React.Fragment>
+                        )}
+                    </aside>
+                )}
                 <div className="content-section">
-                    <Navbar title="Projeto - Mapa do bairro" />
+                    <Navbar
+                        title="Projeto - Mapa do bairro"
+                        onToggleMenu={this.onToggleMenu}
+                        showMenu={showMenu}
+                    />
                     {markers.length && (
                         <GoogleMap
                             markers={markers.filter(this.filterMarkers)}

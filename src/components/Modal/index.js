@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './styles.scss';
+
 const Modal = props => (
     <div className="modal is-active">
         <div className="modal-background" />
@@ -14,13 +16,8 @@ const Modal = props => (
                 />
             </header>
             <section className="modal-card-body">
-                <div style={{ display: 'flex' }}>
-                    <div
-                        style={{
-                            maxWidth: '300px',
-                            marginRight: '2rem'
-                        }}
-                    >
+                <div className="modal-card-body-wrap">
+                    <div className="modal-card-body-content">
                         <img src={props.detail.image_url} />
                     </div>
                     <div>
