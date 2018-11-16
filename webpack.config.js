@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const outputDirectory = 'dist';
 
@@ -23,6 +24,13 @@ const webpackConfig = {
                         plugins: ['@babel/plugin-proposal-class-properties']
                     }
                 }
+            },
+            {
+                test: /\.scss$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                })
             }
         ]
     },
@@ -30,7 +38,8 @@ const webpackConfig = {
         new CleanWebpackPlugin([outputDirectory]),
         new HtmlWebpackPlugin({
             template: './public/index.html'
-        })
+        }),
+        new ExtractTextPlugin('styles.css')
     ]
 };
 

@@ -13,7 +13,7 @@ const MapWithAMarker = compose(
         googleMapURL:
             'https://maps.googleapis.com/maps/api/js?key=AIzaSyAe3FaSbC6tpAAnbQiE0HQX0nBuQBGEyWM&v=3.exp&libraries=geometry,drawing,places',
         loadingElement: <div style={{ height: `100%` }} />,
-        containerElement: <div style={{ height: `400px` }} />,
+        containerElement: <div style={{ height: `calc(100vh - 3.25rem)` }} />,
         mapElement: <div style={{ height: `100%` }} />
     }),
     withHandlers({
@@ -37,10 +37,18 @@ const MapWithAMarker = compose(
                 {marker.isShowInfoWindow && (
                     <InfoWindow onCloseClick={props.onToggleInfoWindow(marker)}>
                         <div>
-                            {marker.title}
-                            <br />
+                            <div
+                                style={{
+                                    marginBottom: '1rem',
+                                    fontWeight: '700',
+                                    fontSize: '20px'
+                                }}
+                            >
+                                {marker.title}
+                            </div>
                             <button
                                 type="button"
+                                className="button is-success is-small"
                                 onClick={props.onOpenModalWithDetail(marker)}
                             >
                                 show detail
