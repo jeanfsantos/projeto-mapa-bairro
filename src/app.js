@@ -1,6 +1,6 @@
 import React from 'react';
 import update from 'immutability-helper';
-import axios from 'axios';
+import queryString from 'query-string';
 
 import GoogleMap from './components/GoogleMap/index';
 import Navbar from './components/Navbar/index';
@@ -28,9 +28,8 @@ class App extends React.Component {
 
     setInitialMarkers() {
         this.setState({ loading: true });
-        axios
-            .get('/api/initial-markers')
-            .then(response => response.data)
+        fetch('/api/initial-markers')
+            .then(response => response.json())
             .then(data => {
                 const markers = data.markers.map(marker => ({
                     ...marker,
@@ -75,9 +74,9 @@ class App extends React.Component {
 
     getInfoLocation(marker) {
         return new Promise((resolve, reject) => {
-            axios
-                .get('/api/info-location', { params: { marker } })
-                .then(response => response.data)
+            const query = queryString.stringify(marker);
+            fetch(`/api/info-location?${query}`)
+                .then(response => response.json())
                 .then(data => resolve(data))
                 .catch(err => reject(err));
         });

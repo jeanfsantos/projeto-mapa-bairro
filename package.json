@@ -51,13 +51,13 @@
         "webpack-dev-server": "^3.1.10"
     },
     "dependencies": {
-        "axios": "^0.18.0",
         "body-parser": "^1.18.3",
         "bulma": "^0.7.2",
         "classnames": "^2.2.6",
         "express": "^4.16.4",
         "immutability-helper": "^2.8.1",
         "prop-types": "^15.6.2",
+        "query-string": "^6.2.0",
         "react": "^16.6.1",
         "react-dom": "^16.6.1",
         "react-google-maps": "^9.4.5",
