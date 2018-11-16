@@ -1,6 +1,7 @@
 const express = require('express');
 const yelp = require('yelp-fusion');
 const bodyParser = require('body-parser');
+const DATA_LOCATIONS = require('./data.json');
 
 const PORT = 8080;
 const apiKey =
@@ -11,6 +12,10 @@ const client = yelp.client(apiKey);
 app.use(express.static('dist'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.get('/api/initial-markers', (req, res) => {
+    res.send(DATA_LOCATIONS);
+});
 
 app.get('/api/info-location', (req, res) => {
     const marker = JSON.parse(req.query.marker);

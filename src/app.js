@@ -2,21 +2,32 @@ import React from 'react';
 import update from 'immutability-helper';
 import axios from 'axios';
 
-import DATA from './data.json';
 import GoogleMap from './components/GoogleMap/index';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            markers: DATA.markers.map(marker => ({
-                ...marker,
-                isShowInfoWindow: false
-            })),
+            center: null,
+            markers: [],
             searchMarkerValue: '',
             loading: false,
             detail: null
         };
+    }
+
+    componentDidMount() {
+        this.setState({ loading: true });
+        axios
+            .get('/api/initial-markers')
+            .then(response => response.data)
+            .then(data => {
+                const markers = data.markers.map(marker => ({
+                    ...marker,
+                    isShowInfoWindow: false
+                }));
+                this.setState({ loading: false, markers, center: data.center });
+            });
     }
 
     handleToggleInfoWindow = marker => {
@@ -63,7 +74,7 @@ class App extends React.Component {
     }
 
     handleOpenModalWithDetail = marker => {
-        this.setState({ loading: true });
+        this.setState({ loading: true, detail: null });
         this.getInfoLocation(marker).then(detail => {
             this.setState({ loading: false, detail });
         });
@@ -74,7 +85,7 @@ class App extends React.Component {
     };
 
     render() {
-        const { markers, detail } = this.state;
+        const { markers, center, detail } = this.state;
         return (
             <div>
                 <h1>Projeto - Mapa do bairro</h1>
@@ -86,23 +97,31 @@ class App extends React.Component {
                         onChange={this.onChangeSearchMarker}
                     />
                 </form>
-                <ul>
-                    {markers.filter(this.filterMarkers).map(marker => (
-                        <li
-                            key={marker.id}
-                            onClick={() => this.handleToggleInfoWindow(marker)}
-                        >
-                            {marker.title}
-                        </li>
-                    ))}
-                </ul>
-                <br />
-                <GoogleMap
-                    markers={markers.filter(this.filterMarkers)}
-                    center={DATA.center}
-                    handleToggleInfoWindow={this.handleToggleInfoWindow}
-                    handleOpenModalWithDetail={this.handleOpenModalWithDetail}
-                />
+                {markers.length && (
+                    <React.Fragment>
+                        <ul>
+                            {markers.filter(this.filterMarkers).map(marker => (
+                                <li
+                                    key={marker.id}
+                                    onClick={() =>
+                                        this.handleToggleInfoWindow(marker)
+                                    }
+                                >
+                                    {marker.title}
+                                </li>
+                            ))}
+                        </ul>
+                        <br />
+                        <GoogleMap
+                            markers={markers.filter(this.filterMarkers)}
+                            center={center}
+                            handleToggleInfoWindow={this.handleToggleInfoWindow}
+                            handleOpenModalWithDetail={
+                                this.handleOpenModalWithDetail
+                            }
+                        />
+                    </React.Fragment>
+                )}
                 {this.state.loading && <div>Carregando...</div>}
                 {detail && (
                     <div>
