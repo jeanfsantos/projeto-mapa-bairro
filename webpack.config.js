@@ -31,19 +31,19 @@ const webpackConfig = {
         new HtmlWebpackPlugin({
             template: './public/index.html'
         })
-    ],
-    devServer: {
-        port: 3000,
-        open: true,
-        proxy: {
-            '/api': 'http://localhost:8080'
-        }
-    }
+    ]
 };
 
 module.exports = (env, argv) => {
     if (argv.mode === 'development') {
         webpackConfig.plugins.unshift(new webpack.HotModuleReplacementPlugin());
+        webpackConfig.devServer = {
+            port: 3000,
+            open: true,
+            proxy: {
+                '/api': 'http://localhost:8080'
+            }
+        };
     }
     return webpackConfig;
 };
