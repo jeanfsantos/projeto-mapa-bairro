@@ -4,8 +4,10 @@
     "description": "Projeto final da Udacity Frontend Avançado - Mapa do bairro",
     "main": "index.js",
     "scripts": {
-        "dev": "webpack-dev-server --mode development --devtool inline-source-map --hot",
-        "prod": "webpack --mode production"
+        "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
+        "server": "nodemon server/index.js",
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "prod": "webpack --mode production && node server/index.js"
     },
     "repository": {
         "type": "git",
@@ -32,9 +34,11 @@
         "babel-eslint": "^10.0.1",
         "babel-loader": "^8.0.4",
         "clean-webpack-plugin": "^0.1.19",
+        "concurrently": "^4.0.1",
         "eslint": "^5.9.0",
         "eslint-plugin-react": "^7.11.1",
         "html-webpack-plugin": "^3.2.0",
+        "nodemon": "^1.18.6",
         "prettier": "^1.15.2",
         "react-hot-loader": "^4.3.12",
         "webpack": "^4.25.1",
@@ -42,10 +46,14 @@
         "webpack-dev-server": "^3.1.10"
     },
     "dependencies": {
+        "axios": "^0.18.0",
+        "body-parser": "^1.18.3",
+        "express": "^4.16.4",
         "immutability-helper": "^2.8.1",
         "react": "^16.6.1",
         "react-dom": "^16.6.1",
         "react-google-maps": "^9.4.5",
-        "recompose": "^0.30.0"
+        "recompose": "^0.30.0",
+        "yelp-fusion": "^2.2.1"
     }
 }

@@ -24,10 +24,7 @@ const MapWithAMarker = compose(
     withScriptjs,
     withGoogleMap
 )(props => (
-    <GoogleMap
-        defaultZoom={15}
-        defaultCenter={{ lat: props.markers[0].lat, lng: props.markers[0].lng }}
-    >
+    <GoogleMap defaultZoom={15} defaultCenter={props.center}>
         {props.markers.map(marker => (
             <Marker
                 key={marker.id}

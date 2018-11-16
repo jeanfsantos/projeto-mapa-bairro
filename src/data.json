@@ -1,34 +1,33 @@
 {
+    "center": {
+        "lat": -23.564526,
+        "lng": -46.653958
+    },
     "markers": [
         {
             "id": 1,
-            "title": "Casa",
-            "lat": -23.568543,
-            "lng": -46.693307
+            "title": "Casa das Rosas",
+            "lat": -23.571062,
+            "lng": -46.645153
         },
         {
             "id": 2,
-            "title": "PagSeguro UOL",
-            "lat": -23.570103,
-            "lng": -46.691927
+            "title": "Parque Trianon",
+            "lat": -23.561816,
+            "lng": -46.657769
         },
         {
             "id": 3,
-            "title": "Shopping Eldorado",
-            "lat": -23.572721,
-            "lng": -46.696002
+            "title": "Mirante 9 de Julho",
+            "lat": -23.561203,
+            "lng": -46.655334
         },
-        {
-            "id": 4,
-            "title": "Iguatemi Shopping",
-            "lat": -23.576991,
-            "lng": -46.688143
-        },
+        { "id": 4, "title": "MASP", "lat": -23.561518, "lng": -46.655963 },
         {
             "id": 5,
-            "title": "Sesc Pinheiros",
-            "lat": -23.568006,
-            "lng": -46.69783
+            "title": "Itaú Cultural",
+            "lat": -23.570365,
+            "lng": -46.645882
         }
     ]
 }

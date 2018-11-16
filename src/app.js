@@ -1,5 +1,6 @@
 import React from 'react';
 import update from 'immutability-helper';
+import axios from 'axios';
 
 import DATA from './data.json';
 import GoogleMap from './components/GoogleMap/index';
@@ -30,6 +31,7 @@ class App extends React.Component {
                 }
             })
         });
+        isShowInfoWindow && this.getInfoLocation(marker);
     };
 
     onChangeSearchMarker = ({ target }) => {
@@ -47,6 +49,13 @@ class App extends React.Component {
         const regex = new RegExp(value, 'i');
         return regex.test(marker.title);
     };
+
+    getInfoLocation(marker) {
+        axios
+            .get('/api/info-location', { params: { marker } })
+            .then(response => response.data)
+            .then(data => console.log(data));
+    }
 
     render() {
         return (
@@ -77,6 +86,7 @@ class App extends React.Component {
                 <br />
                 <GoogleMap
                     markers={this.state.markers.filter(this.filterMarkers)}
+                    center={DATA.center}
                     handleToggleInfoWindow={this.handleToggleInfoWindow}
                 />
             </div>
