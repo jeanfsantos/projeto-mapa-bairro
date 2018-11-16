@@ -7,6 +7,7 @@ import Navbar from './components/Navbar/index';
 import Input from './components/Input/index';
 import PlaceList from './components/PlaceList/index';
 import Modal from './components/Modal/index';
+import Overlay from './components/Overlay/index';
 
 class App extends React.Component {
     constructor(props) {
@@ -15,7 +16,8 @@ class App extends React.Component {
             center: null,
             markers: [],
             searchMarkerValue: '',
-            detail: null
+            detail: null,
+            loading: false
         };
     }
 
@@ -24,6 +26,7 @@ class App extends React.Component {
     }
 
     setInitialMarkers() {
+        this.setState({ loading: true });
         axios
             .get('/api/initial-markers')
             .then(response => response.data)
@@ -32,7 +35,7 @@ class App extends React.Component {
                     ...marker,
                     isShowInfoWindow: false
                 }));
-                this.setState({ markers, center: data.center });
+                this.setState({ loading: false, markers, center: data.center });
             });
     }
 
@@ -80,9 +83,9 @@ class App extends React.Component {
     }
 
     handleOpenModalWithDetail = marker => {
-        this.setState({ detail: null });
+        this.setState({ loading: true, detail: null });
         this.getInfoLocation(marker).then(detail => {
-            this.setState({ detail });
+            this.setState({ loading: false, detail });
         });
     };
 
@@ -91,7 +94,7 @@ class App extends React.Component {
     };
 
     render() {
-        const { markers, center, detail } = this.state;
+        const { markers, center, detail, loading } = this.state;
         return (
             <div className="wrapper">
                 <aside className="menu menu-section">
@@ -130,6 +133,18 @@ class App extends React.Component {
                 </div>
                 {detail && (
                     <Modal detail={detail} onCloseModal={this.onCloseModal} />
+                )}
+                {loading && (
+                    <Overlay>
+                        <div className="wrapper-loading">
+                            <progress
+                                className="progress is-large is-info"
+                                max="100"
+                            >
+                                60%
+                            </progress>
+                        </div>
+                    </Overlay>
                 )}
             </div>
         );
