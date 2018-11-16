@@ -21,6 +21,7 @@ class App extends React.Component {
             showMenu: true,
             showError: false
         };
+        this.elementRef = React.createRef();
     }
 
     componentDidMount() {
@@ -95,7 +96,9 @@ class App extends React.Component {
         this.setState({ loading: true, detail: null });
         this.getInfoLocation(marker)
             .then(detail => {
-                this.setState({ detail });
+                this.setState({ detail }, () => {
+                    this.elementRef.current.focus();
+                });
             })
             .catch(() => {
                 this.setState({
@@ -216,6 +219,7 @@ class App extends React.Component {
                             <Modal
                                 detail={detail}
                                 onCloseModal={this.onCloseModal}
+                                modalRef={this.elementRef}
                             />
                         )}
                         {loading && (
