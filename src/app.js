@@ -1,8 +1,13 @@
 import React from 'react';
 import update from 'immutability-helper';
-import axios from 'axios';
+import queryString from 'query-string';
 
 import GoogleMap from './components/GoogleMap/index';
+import Navbar from './components/Navbar/index';
+import Input from './components/Input/index';
+import PlaceList from './components/PlaceList/index';
+import Modal from './components/Modal/index';
+import Overlay from './components/Overlay/index';
 
 class App extends React.Component {
     constructor(props) {
@@ -11,20 +16,36 @@ class App extends React.Component {
             center: null,
             markers: [],
             searchMarkerValue: '',
-            detail: null
+            detail: null,
+            loading: false,
+            showMenu: true,
+            showError: false
         };
+        this.elementRef = React.createRef();
     }
 
     componentDidMount() {
-        axios
-            .get('/api/initial-markers')
-            .then(response => response.data)
+        this.setInitialMarkers();
+    }
+
+    setInitialMarkers() {
+        this.setState({ loading: true });
+        fetch('/api/initial-markers')
+            .then(response => response.json())
             .then(data => {
                 const markers = data.markers.map(marker => ({
                     ...marker,
                     isShowInfoWindow: false
                 }));
                 this.setState({ markers, center: data.center });
+            })
+            .catch(() => {
+                this.setState({
+                    showError: true
+                });
+            })
+            .finally(() => {
+                this.setState({ loading: false });
             });
     }
 
@@ -63,174 +84,157 @@ class App extends React.Component {
 
     getInfoLocation(marker) {
         return new Promise((resolve, reject) => {
-            axios
-                .get('/api/info-location', { params: { marker } })
-                .then(response => response.data)
+            const query = queryString.stringify(marker);
+            fetch(`/api/info-location?${query}`)
+                .then(response => response.json())
                 .then(data => resolve(data))
                 .catch(err => reject(err));
         });
     }
 
     handleOpenModalWithDetail = marker => {
-        this.setState({ detail: null });
-        this.getInfoLocation(marker).then(detail => {
-            this.setState({ detail });
-        });
+        this.setState({ loading: true, detail: null });
+        this.getInfoLocation(marker)
+            .then(detail => {
+                this.setState({ detail }, () => {
+                    this.elementRef.current.focus();
+                });
+            })
+            .catch(() => {
+                this.setState({
+                    showError: true
+                });
+            })
+            .finally(() => {
+                this.setState({ loading: false });
+            });
     };
 
     onCloseModal = () => {
         this.setState({ detail: null });
     };
 
+    onToggleMenu = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            showMenu: !prevState.showMenu
+        }));
+    };
+
     render() {
-        const { markers, center, detail } = this.state;
+        const {
+            markers,
+            center,
+            detail,
+            loading,
+            showMenu,
+            showError
+        } = this.state;
         return (
-            <div style={{ display: 'flex' }}>
-                <aside
-                    className="menu"
-                    style={{ width: '300px', margin: '1rem' }}
-                >
-                    {markers.length && (
-                        <React.Fragment>
-                            <form>
-                                <div className="control">
-                                    <input
-                                        className="input"
-                                        type="text"
-                                        placeholder="Pesquisar"
-                                        onChange={this.onChangeSearchMarker}
-                                    />
+            <div className="wrapper">
+                {showError ? (
+                    <Overlay>
+                        <div className="wrapper-loading">
+                            <article className="message is-danger">
+                                <div className="message-header">
+                                    <p>Erro</p>
                                 </div>
-                            </form>
-                            <p className="menu-label">Lugares</p>
-                            <ul className="menu-list">
-                                {markers
-                                    .filter(this.filterMarkers)
-                                    .map(marker => (
-                                        <li
-                                            key={marker.id}
-                                            onClick={() =>
-                                                this.handleToggleInfoWindow(
-                                                    marker
-                                                )
-                                            }
-                                        >
-                                            <a
-                                                className={
-                                                    marker.isShowInfoWindow
-                                                        ? 'is-active'
-                                                        : ''
+                                <div className="message-body">
+                                    Ops, ocorreu um erro favor recarregar a
+                                    página, caso o erro persistir tente mais
+                                    tarde. (:
+                                </div>
+                            </article>
+                        </div>
+                    </Overlay>
+                ) : (
+                    <React.Fragment>
+                        {showMenu && (
+                            <aside className="menu menu-section">
+                                {markers.length && (
+                                    <React.Fragment>
+                                        <div>
+                                            <h1>Projeto - Mapa do bairro</h1>
+                                            <br />
+                                            <form>
+                                                <Input
+                                                    placeholder="Filtrar"
+                                                    onChangeSearchMarker={
+                                                        this
+                                                            .onChangeSearchMarker
+                                                    }
+                                                    ariaLabel="Filtrar lugares"
+                                                />
+                                            </form>
+                                            <p className="menu-label">
+                                                Lugares
+                                            </p>
+                                            <PlaceList
+                                                places={markers.filter(
+                                                    this.filterMarkers
+                                                )}
+                                                handleToggleInfoWindow={
+                                                    this.handleToggleInfoWindow
                                                 }
-                                            >
-                                                {marker.title}
-                                            </a>
-                                        </li>
-                                    ))}
-                            </ul>
-                        </React.Fragment>
-                    )}
-                </aside>
-                <div style={{ width: '100%' }}>
-                    <nav
-                        className="navbar"
-                        role="navigation"
-                        aria-label="main navigation"
-                    >
-                        <div className="navbar-brand">
-                            <div style={{ lineHeight: '52px' }}>
-                                Projeto - Mapa do bairro
-                            </div>
-                            <a
-                                role="button"
-                                className="navbar-burger"
-                                aria-label="menu"
-                                aria-expanded="false"
-                            >
-                                <span aria-hidden="true" />
-                                <span aria-hidden="true" />
-                                <span aria-hidden="true" />
-                            </a>
-                        </div>
-                    </nav>
-                    {markers.length && (
-                        <GoogleMap
-                            markers={markers.filter(this.filterMarkers)}
-                            center={center}
-                            handleToggleInfoWindow={this.handleToggleInfoWindow}
-                            handleOpenModalWithDetail={
-                                this.handleOpenModalWithDetail
-                            }
-                        />
-                    )}
-                </div>
-                {detail && (
-                    <div className="modal is-active">
-                        <div className="modal-background" />
-                        <div className="modal-card">
-                            <header className="modal-card-head">
-                                <p className="modal-card-title">
-                                    {detail.name}
-                                </p>
-                                <button
-                                    className="delete"
-                                    aria-label="close"
-                                    onClick={this.onCloseModal}
+                                            />
+                                        </div>
+                                        <div tabIndex="0">
+                                            <div>{"API's utilizadas:"}</div>
+                                            <ul>
+                                                <li role="none">
+                                                    <a href="https://cloud.google.com/maps-platform/?hl=pt-BR">
+                                                        Google Map
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://www.yelp.com/developers">
+                                                        Yelp
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </React.Fragment>
+                                )}
+                            </aside>
+                        )}
+                        <div className="content-section">
+                            <Navbar
+                                onToggleMenu={this.onToggleMenu}
+                                showMenu={showMenu}
+                            />
+                            {markers.length && (
+                                <GoogleMap
+                                    markers={markers.filter(this.filterMarkers)}
+                                    center={center}
+                                    handleToggleInfoWindow={
+                                        this.handleToggleInfoWindow
+                                    }
+                                    handleOpenModalWithDetail={
+                                        this.handleOpenModalWithDetail
+                                    }
                                 />
-                            </header>
-                            <section className="modal-card-body">
-                                <div style={{ display: 'flex' }}>
-                                    <div
-                                        style={{
-                                            maxWidth: '300px',
-                                            marginRight: '2rem'
-                                        }}
-                                    >
-                                        <img src={detail.image_url} />
-                                    </div>
-                                    <div>
-                                        {detail.review_count && (
-                                            <div>
-                                                Reviews: {detail.review_count}
-                                            </div>
-                                        )}
-                                        {detail.rating && (
-                                            <div>
-                                                Avaliação: {detail.rating}
-                                            </div>
-                                        )}
-                                        {detail.display_phone && (
-                                            <div>
-                                                Telefone: {detail.display_phone}
-                                            </div>
-                                        )}
-                                        {detail.display_address && (
-                                            <div>
-                                                Endereço:{' '}
-                                                {detail.display_address &&
-                                                    detail.display_address.join(
-                                                        ', '
-                                                    )}
-                                            </div>
-                                        )}
-                                        {detail.url && (
-                                            <div>
-                                                <a
-                                                    href={detail.url}
-                                                    title={`Detalhes do ${
-                                                        detail.name
-                                                    }`}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
-                                                    Ver mais
-                                                </a>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </section>
+                            )}
                         </div>
-                    </div>
+                        {detail && (
+                            <Modal
+                                detail={detail}
+                                onCloseModal={this.onCloseModal}
+                                modalRef={this.elementRef}
+                            />
+                        )}
+                        {loading && (
+                            <Overlay>
+                                <div className="wrapper-loading">
+                                    <progress
+                                        className="progress is-large is-info"
+                                        max="100"
+                                    >
+                                        60%
+                                    </progress>
+                                </div>
+                            </Overlay>
+                        )}
+                    </React.Fragment>
                 )}
             </div>
         );

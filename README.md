@@ -4,6 +4,7 @@
 
 -   [Visão geral do projeto](#visão-geral-do-projeto)
 -   [Servidor Backend](#servidor-backend)
+-   [Instalar e executar](#instalar-e-executar)
 -   [Recursos usado](#recursos-usado)
 
 ## Visão geral do projeto
@@ -31,9 +32,24 @@ O servidor feito em express é responsável por fazer a busca dos dados consulta
             "title": "Coffee & Tea"
         }
     ]
-    ...
 }
 ```
+
+## Instalar e executar
+
+Para executar o projeto segue os passos:
+
+-   instalar todas as dependências do projeto com `npm install`
+
+### Produção
+
+-   inicie ambiente de produção com `npm run prod`
+-   acesse a url `http://localhost:8080/`
+
+### Desenvolvimento
+
+-   inicie ambiente de desenvolvimento com `npm run dev`
+-   acesse a url `http://localhost:3000/`
 
 ## Recursos usado
 
@@ -42,4 +58,5 @@ O servidor feito em express é responsável por fazer a busca dos dados consulta
 -   [webpack](https://webpack.js.org/) para executar as tarefas de compilar o js, css e instanciar um servidor de desenolvimento.
 -   [React](https://reactjs.org/) Uma biblioteca JavaScript para construir interfaces com o usuário.
 -   [Express](https://expressjs.com/pt-br/) O Express é um framework para aplicativo da web do Node.js mínimo e flexível que fornece um conjunto robusto de recursos para aplicativos web e móvel.
--   [Yelp](https://www.yelp.com/developers) API Restful para pesquisar e recuperar dados dos lugares.
+-   [Google Map API](https://cloud.google.com/maps-platform/?hl=pt-BR) API para renderizar o mapa e manipular marcadores.
+-   [Yelp](https://www.yelp.com/developers) API para pesquisar e recuperar dados dos lugares.

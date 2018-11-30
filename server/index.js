@@ -18,7 +18,7 @@ app.get('/api/initial-markers', (req, res) => {
 });
 
 app.get('/api/info-location', (req, res) => {
-    const marker = JSON.parse(req.query.marker);
+    const marker = req.query;
     const searchRequest = {
         term: marker.title,
         latitude: marker.lat,
