@@ -61,7 +61,7 @@ const MapWithAMarker = compose(
                                     marker.title
                                 }`}
                             >
-                                show detail
+                                Mostrar detalhes
                             </button>
                         </div>
                     </InfoWindow>
