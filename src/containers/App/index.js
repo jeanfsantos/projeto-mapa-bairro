@@ -28,6 +28,8 @@ class App extends React.Component {
         this.setInitialMarkers();
     }
 
+    // metodo para buscar os pontos iniciais da api,
+    // em caso de erro sera mostrado o container Erro com messagem
     setInitialMarkers() {
         this.setState({ loading: true });
         fetch('/api/initial-markers')
@@ -49,6 +51,7 @@ class App extends React.Component {
             });
     }
 
+    // metodo para mostrar a janela de informacao do lugar
     handleToggleInfoWindow = marker => {
         const index = this.state.markers.findIndex(
             mark => mark.id === marker.id
@@ -66,6 +69,7 @@ class App extends React.Component {
         !isShowInfoWindow && this.onCloseModal();
     };
 
+    // metodo para filtra a listagem de lugares
     filterMarkers = marker => {
         const { searchMarkerValue: value } = this.state;
         if (!value) {
@@ -75,6 +79,8 @@ class App extends React.Component {
         return regex.test(marker.title);
     };
 
+    // metodo para buscar no endpoint mais informacoes
+    // da api yelp
     getInfoLocation(marker) {
         return new Promise((resolve, reject) => {
             const query = queryString.stringify(marker);
@@ -85,6 +91,8 @@ class App extends React.Component {
         });
     }
 
+    // metodo responsavel para mostrar o modal com detalhes do lugar
+    // em caso de erro sera mostrado o container erro com mensagem
     handleOpenModalWithDetail = marker => {
         this.setState({ loading: true, detail: null });
         this.getInfoLocation(marker)
@@ -106,10 +114,12 @@ class App extends React.Component {
             });
     };
 
+    // metodo responsavel para limpar e fechar o modal
     onCloseModal = () => {
         this.setState({ detail: null });
     };
 
+    // metodo para fazer o toggle do burger e menu
     onToggleMenu = () => {
         this.setState(prevState => ({
             ...prevState,
@@ -117,6 +127,7 @@ class App extends React.Component {
         }));
     };
 
+    // metodo para popular o valor do search
     onChangeSearchMarker = ({ target }) => {
         this.setState(prevState => ({
             ...prevState,
@@ -124,6 +135,7 @@ class App extends React.Component {
         }));
     };
 
+    // metodo responsavel pelo fallback na autenticacao do google maps
     handleAuthMapError = errorMessage => {
         this.setState({ errorMessage });
     };

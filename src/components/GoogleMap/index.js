@@ -29,6 +29,8 @@ const MapWithAMarker = compose(
     lifecycle({
         componentDidMount() {
             const { handleAuthMapError } = this.props;
+
+            // metodo que trata falha de autenticao
             window.gm_authFailure = function() {
                 handleAuthMapError('não foi possível autenticar');
             };
