@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './styles.scss';
 import Overlay from '../../components/Overlay/index';
 
 const ErrorContainer = ({ message }) => {
     return (
         <Overlay>
-            <div className="wrapper-loading">
+            <div className="wrapper-error">
                 <article className="message is-danger">
                     <div className="message-header">
                         <p>Erro</p>

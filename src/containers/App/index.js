@@ -41,7 +41,7 @@ class App extends React.Component {
             })
             .catch(() => {
                 this.setState({
-                    errorMessage: 'Não foi possível buscar os locais'
+                    errorMessage: 'não foi possível buscar os locais'
                 });
             })
             .finally(() => {
@@ -98,8 +98,7 @@ class App extends React.Component {
                     showError: true
                 });
                 this.setState({
-                    errorMessage:
-                        'Não foi possível carregar o detalhe do ponto, favor recarregar a pagina.'
+                    errorMessage: 'não foi possível carregar o detalhe do ponto'
                 });
             })
             .finally(() => {
@@ -123,6 +122,10 @@ class App extends React.Component {
             ...prevState,
             searchMarkerValue: target.value
         }));
+    };
+
+    handleAuthMapError = errorMessage => {
+        this.setState({ errorMessage });
     };
 
     render() {
@@ -165,6 +168,7 @@ class App extends React.Component {
                                     handleOpenModalWithDetail={
                                         this.handleOpenModalWithDetail
                                     }
+                                    handleAuthMapError={this.handleAuthMapError}
                                 />
                             )}
                         </div>

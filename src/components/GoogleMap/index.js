@@ -6,7 +6,7 @@ import {
     Marker,
     InfoWindow
 } from 'react-google-maps';
-import { compose, withProps, withHandlers } from 'recompose';
+import { compose, withProps, withHandlers, lifecycle } from 'recompose';
 
 import './styles.scss';
 
@@ -24,6 +24,14 @@ const MapWithAMarker = compose(
         },
         onOpenModalWithDetail: props => marker => () => {
             props.handleOpenModalWithDetail(marker);
+        }
+    }),
+    lifecycle({
+        componentDidMount() {
+            const { handleAuthMapError } = this.props;
+            window.gm_authFailure = function() {
+                handleAuthMapError('não foi possível autenticar');
+            };
         }
     }),
     withScriptjs,
