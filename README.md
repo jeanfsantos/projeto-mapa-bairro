@@ -61,3 +61,4 @@ Para executar o projeto segue os passos:
 -   [Google Map API](https://cloud.google.com/maps-platform/?hl=pt-BR) API para renderizar o mapa e manipular marcadores.
 -   [Yelp](https://www.yelp.com/developers) API para pesquisar e recuperar dados dos lugares.
 -   [service workers](https://developers.google.com/web/fundamentals/primers/service-workers/?hl=pt-br) Script que executa em segundo plano separado da página da web.
+-   [Bulma](https://bulma.io/) Framework CSS
