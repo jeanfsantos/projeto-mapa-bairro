@@ -113,6 +113,13 @@ class App extends React.Component {
         }));
     };
 
+    onChangeSearchMarker = ({ target }) => {
+        this.setState(prevState => ({
+            ...prevState,
+            searchMarkerValue: target.value
+        }));
+    };
+
     render() {
         const {
             markers,
@@ -148,6 +155,7 @@ class App extends React.Component {
                                 handleToggleInfoWindow={
                                     this.handleToggleInfoWindow
                                 }
+                                onChangeSearchMarker={this.onChangeSearchMarker}
                             />
                         )}
                         <div className="content-section">
