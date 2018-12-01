@@ -3,9 +3,8 @@ import update from 'immutability-helper';
 import queryString from 'query-string';
 
 import GoogleMap from './components/GoogleMap/index';
+import Menu from './components/Menu/index';
 import Navbar from './components/Navbar/index';
-import Input from './components/Input/index';
-import PlaceList from './components/PlaceList/index';
 import Modal from './components/Modal/index';
 import Overlay from './components/Overlay/index';
 
@@ -64,13 +63,6 @@ class App extends React.Component {
             })
         });
         !isShowInfoWindow && this.onCloseModal();
-    };
-
-    onChangeSearchMarker = ({ target }) => {
-        this.setState(prevState => ({
-            ...prevState,
-            searchMarkerValue: target.value
-        }));
     };
 
     filterMarkers = marker => {
@@ -150,52 +142,13 @@ class App extends React.Component {
                 ) : (
                     <React.Fragment>
                         {showMenu && (
-                            <aside className="menu menu-section">
-                                {markers.length && (
-                                    <React.Fragment>
-                                        <div>
-                                            <h1>Projeto - Mapa do bairro</h1>
-                                            <br />
-                                            <form>
-                                                <Input
-                                                    placeholder="Filtrar"
-                                                    onChangeSearchMarker={
-                                                        this
-                                                            .onChangeSearchMarker
-                                                    }
-                                                    ariaLabel="Filtrar lugares"
-                                                />
-                                            </form>
-                                            <p className="menu-label">
-                                                Lugares
-                                            </p>
-                                            <PlaceList
-                                                places={markers.filter(
-                                                    this.filterMarkers
-                                                )}
-                                                handleToggleInfoWindow={
-                                                    this.handleToggleInfoWindow
-                                                }
-                                            />
-                                        </div>
-                                        <div tabIndex="0">
-                                            <div>{"API's utilizadas:"}</div>
-                                            <ul>
-                                                <li role="none">
-                                                    <a href="https://cloud.google.com/maps-platform/?hl=pt-BR">
-                                                        Google Map
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://www.yelp.com/developers">
-                                                        Yelp
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </React.Fragment>
-                                )}
-                            </aside>
+                            <Menu
+                                markers={markers}
+                                filterMarkers={this.filterMarkers}
+                                handleToggleInfoWindow={
+                                    this.handleToggleInfoWindow
+                                }
+                            />
                         )}
                         <div className="content-section">
                             <Navbar
