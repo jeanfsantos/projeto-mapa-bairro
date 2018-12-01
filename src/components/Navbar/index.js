@@ -8,7 +8,7 @@ const Navbar = props => (
             <a
                 role="button"
                 className={classnames('navbar-burger', {
-                    'is-active': !props.showMenu
+                    'is-active': props.showMenu
                 })}
                 aria-label="menu"
                 aria-expanded="false"
