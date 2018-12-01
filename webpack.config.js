@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const path = require('path');
 const outputDirectory = 'dist';
 
@@ -39,7 +40,28 @@ const webpackConfig = {
         new HtmlWebpackPlugin({
             template: './public/index.html'
         }),
-        new ExtractTextPlugin('styles.css')
+        new ExtractTextPlugin('styles.css'),
+        new SWPrecacheWebpackPlugin({
+            filename: 'service-worker.js',
+            navigateFallback: '/index.html',
+            staticFileGlobs: ['dist/*.{js,html,css}'],
+            minify: true,
+            stripPrefix: 'dist/',
+            runtimeCaching: [
+                {
+                    urlPattern: /^https:\/\/(fonts|maps)\.googleapis\.com\//,
+                    handler: 'cacheFirst'
+                },
+                {
+                    urlPattern: /^https:\/\/maps\.gstatic\.com\//,
+                    handler: 'cacheFirst'
+                },
+                {
+                    urlPattern: /^https?:\/\/localhost:8080\/api\//,
+                    handler: 'cacheFirst'
+                }
+            ]
+        })
     ]
 };
 

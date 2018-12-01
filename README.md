@@ -41,7 +41,7 @@ Para executar o projeto segue os passos:
 
 -   instalar todas as dependências do projeto com `npm install`
 
-### Produção
+### Produção com Service Workers
 
 -   inicie ambiente de produção com `npm run prod`
 -   acesse a url `http://localhost:8080/`
@@ -60,3 +60,4 @@ Para executar o projeto segue os passos:
 -   [Express](https://expressjs.com/pt-br/) O Express é um framework para aplicativo da web do Node.js mínimo e flexível que fornece um conjunto robusto de recursos para aplicativos web e móvel.
 -   [Google Map API](https://cloud.google.com/maps-platform/?hl=pt-BR) API para renderizar o mapa e manipular marcadores.
 -   [Yelp](https://www.yelp.com/developers) API para pesquisar e recuperar dados dos lugares.
+-   [service workers](https://developers.google.com/web/fundamentals/primers/service-workers/?hl=pt-br) Script que executa em segundo plano separado da página da web.
