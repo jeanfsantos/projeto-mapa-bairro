@@ -2,12 +2,12 @@ import React from 'react';
 import update from 'immutability-helper';
 import queryString from 'query-string';
 
-import Error from './containers/Error/index';
-import GoogleMap from './components/GoogleMap/index';
-import Menu from './components/Menu/index';
-import Navbar from './components/Navbar/index';
-import Modal from './components/Modal/index';
-import Loading from './components/Loading/index';
+import Error from '../Error/index';
+import GoogleMap from '../../components/GoogleMap/index';
+import Menu from '../../components/Menu/index';
+import Navbar from '../../components/Navbar/index';
+import Modal from '../../components/Modal/index';
+import Loading from '../../components/Loading/index';
 
 class App extends React.Component {
     constructor(props) {
