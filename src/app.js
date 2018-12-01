@@ -2,11 +2,12 @@ import React from 'react';
 import update from 'immutability-helper';
 import queryString from 'query-string';
 
+import Error from './containers/Error/index';
 import GoogleMap from './components/GoogleMap/index';
 import Menu from './components/Menu/index';
 import Navbar from './components/Navbar/index';
 import Modal from './components/Modal/index';
-import Overlay from './components/Overlay/index';
+import Loading from './components/Loading/index';
 
 class App extends React.Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class App extends React.Component {
             detail: null,
             loading: false,
             showMenu: true,
-            showError: false
+            errorMessage: null
         };
         this.elementRef = React.createRef();
     }
@@ -40,7 +41,7 @@ class App extends React.Component {
             })
             .catch(() => {
                 this.setState({
-                    showError: true
+                    errorMessage: 'Não foi possível buscar os locais'
                 });
             })
             .finally(() => {
@@ -96,6 +97,10 @@ class App extends React.Component {
                 this.setState({
                     showError: true
                 });
+                this.setState({
+                    errorMessage:
+                        'Não foi possível carregar o detalhe do ponto, favor recarregar a pagina.'
+                });
             })
             .finally(() => {
                 this.setState({ loading: false });
@@ -127,25 +132,12 @@ class App extends React.Component {
             detail,
             loading,
             showMenu,
-            showError
+            errorMessage
         } = this.state;
         return (
             <div className="wrapper">
-                {showError ? (
-                    <Overlay>
-                        <div className="wrapper-loading">
-                            <article className="message is-danger">
-                                <div className="message-header">
-                                    <p>Erro</p>
-                                </div>
-                                <div className="message-body">
-                                    Ops, ocorreu um erro favor recarregar a
-                                    página, caso o erro persistir tente mais
-                                    tarde. (:
-                                </div>
-                            </article>
-                        </div>
-                    </Overlay>
+                {errorMessage ? (
+                    <Error message={errorMessage} />
                 ) : (
                     <React.Fragment>
                         {showMenu && (
@@ -183,18 +175,7 @@ class App extends React.Component {
                                 modalRef={this.elementRef}
                             />
                         )}
-                        {loading && (
-                            <Overlay>
-                                <div className="wrapper-loading">
-                                    <progress
-                                        className="progress is-large is-info"
-                                        max="100"
-                                    >
-                                        60%
-                                    </progress>
-                                </div>
-                            </Overlay>
-                        )}
+                        <Loading loading={loading} />
                     </React.Fragment>
                 )}
             </div>
